@@ -25,7 +25,7 @@ class ToDoListTableViewController: UITableViewController {
             do {
                 let encodedata = try JSONEncoder().encode(array)
                 
-                UserDefaults.standard.set(encodedata, forKey: "taskItemArray")
+                UserDefaults.standard.set(encodedata, forKey: "toDoArray")
             } catch {
                 print("unable to encode \(error)")
             }
@@ -37,7 +37,7 @@ class ToDoListTableViewController: UITableViewController {
 //            tableView.reloadData()
 //        }
         do {
-                    if let data = UserDefaults.standard.data(forKey: "taskItemArray") {
+                    if let data = UserDefaults.standard.data(forKey: "toDoArray") {
                         
                         let arrayTask = try JSONDecoder().decode([TaskItem].self, from: data)
                         
@@ -63,10 +63,13 @@ class ToDoListTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell.init(style: .default, reuseIdentifier: "Cell")
+        let cell = UITableViewCell.init(style: .subtitle, reuseIdentifier: "")
 
         // Configure the cell...
         cell.textLabel?.text = array[indexPath.row].name
+        cell.detailTextLabel?.text = array[indexPath.row].description
+        cell.detailTextLabel?.adjustsFontSizeToFitWidth = true
+        cell.detailTextLabel?.textColor = UIColor.systemIndigo
         
         if array[indexPath.row].isComplete{
             cell.accessoryType = .checkmark

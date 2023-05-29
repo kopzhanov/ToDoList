@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var textField: UITextField!
-    
+    @IBOutlet weak var descTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,12 +18,10 @@ class ViewController: UIViewController {
     }
     
     @IBAction func addTask(_ sender: Any) {
-        let task = textField.text!
-        
-        let newTask = TaskItem(name: task)
+        let newTask = TaskItem(name: textField.text!, description: descTextField.text!)
         
         do {
-            if let data = UserDefaults.standard.data(forKey: "taskItemArray") {
+            if let data = UserDefaults.standard.data(forKey: "toDoArray") {
                         
                         var arrayTask = try JSONDecoder().decode([TaskItem].self, from: data)
                         
@@ -31,13 +29,13 @@ class ViewController: UIViewController {
                         
                         let encodedata = try JSONEncoder().encode(arrayTask)
                         
-                        UserDefaults.standard.set(encodedata, forKey: "taskItemArray")
+                        UserDefaults.standard.set(encodedata, forKey: "toDoArray")
                     } else {
                         let array = [newTask]
                         
                         let encodedata = try JSONEncoder().encode(array)
                         
-                        UserDefaults.standard.set(encodedata, forKey: "taskItemArray")
+                        UserDefaults.standard.set(encodedata, forKey: "toDoArray")
                     }
                 } catch {
                     print("unable to encode \(error)")
@@ -57,6 +55,7 @@ class ViewController: UIViewController {
 //        }
         
         textField.text = ""
+        descTextField.text = ""
     }
 }
 
